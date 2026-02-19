@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const recentPosts = posts.slice(0, 5);
+---
+
+<BaseLayout title="李洋的博客">
+  <section class="hero">
+    <h1>你好，我是李洋</h1>
+    <p>欢迎来到我的个人博客，这里记录我的技术思考与生活感悟。</p>
+  </section>
+
+  <section class="recent-posts">
+    <h2>最新文章</h2>
+    <ul class="post-list">
+      {recentPosts.map((post) => (
+        <li>
+          <a href={`/blog/${post.id}`}>
+            <h3>{post.data.title}</h3>
+            <p class="post-meta">
+              <time datetime={post.data.pubDate.toISOString()}>
+                {post.data.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </time>
+            </p>
+            <p class="post-description">{post.data.description}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+    {posts.length > 5 && (
+      <a href="/blog" class="view-all">查看全部文章 &rarr;</a>
+    )}
+  </section>
+</BaseLayout>

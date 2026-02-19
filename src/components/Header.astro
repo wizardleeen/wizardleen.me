@@ -1,0 +1,20 @@
+---
+const navItems = [
+  { label: '首页', href: '/' },
+  { label: '博客', href: '/blog' },
+  { label: '关于', href: '/about' },
+];
+---
+
+<header class="site-header">
+  <nav>
+    <a href="/" class="site-title">李洋的博客</a>
+    <ul class="nav-links">
+      {navItems.map((item) => (
+        <li>
+          <a href={item.href}>{item.label}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
